@@ -7,7 +7,8 @@
 ## 计划：每一天或者每一周 checkout 出来一个分支——预计100周~啊哈哈
 - 一个分支一周的时间
 - 这样的话就可以根据分支的变化日志来追踪整个项目的变更了（此前一直想做的）
-
+- 先完成手写玩的demo联系
+- 再此基础上做识别怪物
 
 ## Tracking Project：TODO 
 - 最新的进度在最新分分支里面
@@ -45,6 +46,9 @@
 
 - [Python去控制鼠标键盘：PyAutoGUI 文章](https://www.cnblogs.com/fanghao/p/8453207.html)
 
+- ❤[tensorflow.js 更多的demo](https://github.com/tensorflow/tfjs-examples/)
+
+
 ## 项目背景
 
 > 来源，最近在玩一款单机游戏——《怪物猎人：世界》，水平很菜，在肝中。挺好玩，但是呢，这游戏没显示怪物血量，每次都得会营地去更换装备。假如，存在一款辅助性工具，狩猎怪物,在打斗的时候，根据玩家的语音、手势即时的更换装备，这样是不是很酷呢？
@@ -58,10 +62,287 @@
 
 这个部位，可能用于项目起初的控制装备的方式之一
 
+## Tensorflow 关注的几个模块
+
+- 模型 https://tensorflow.google.cn/js/models?hl=zh_cn
+
+
+## tensorflow.js 的API
+
+- AdadeltaOptimizer: ƒ e(e,n,r)
+- AdagradOptimizer: ƒ e(e,n)
+- AdamOptimizer: ƒ e(e,n,r,i)
+- AdamaxOptimizer: ƒ e(e,n,r,i,o)
+- Callback: ƒ e()
+- CallbackList: ƒ t(t,e)
+- CustomCallback: ƒ e(e)
+- DataStorage: ƒ t(t)
+- ENV: t {features: {…}, registry: {…}, backendName: "webgl", globalEngine: t}
+- Environment: ƒ t(t)
+- GraphModel: ƒ t(t,e)
+- History: ƒ e()
+- InputSpec: ƒ (t)
+- KernelBackend: ƒ t()
+- LayerVariable: ƒ t(t,e,n,r,i)
+- LayersModel: ƒ e(e)
+- MomentumOptimizer: ƒ e(e,n,r)
+- Optimizer: ƒ e()
+- RMSPropOptimizer: ƒ e(e,n,r,i,o)
+- RNN: ƒ e(e)
+- Rank: {R0: "R0", R1: "R1", R2: "R2", R3: "R3", R4: "R4", …}
+- Reduction: {0: "NONE", 1: "MEAN", 2: "SUM", 3: "SUM_BY_NONZERO_WEIGHTS", NONE: 0, MEAN: 1, SUM: 2, SUM_BY_NONZERO_WEIGHTS: 3}
+- SGDOptimizer: ƒ e(e)
+- Sequential: ƒ e(e)
+- SymbolicTensor: ƒ (t,e,n,r,i,o,a)
+- Tensor: ƒ t(t,e,n,r,i)
+- TensorBuffer: ƒ t(t,e,n)
+- Variable: ƒ e(e,n,r)
+- abs: ƒ ()
+- acos: ƒ ()
+- acosh: ƒ ()
+- add: ƒ ()
+- addN: ƒ ()
+- addStrict: ƒ ()
+- all: ƒ ()
+- any: ƒ ()
+- argMax: ƒ ()
+- argMin: ƒ ()
+- asin: ƒ ()
+- asinh: ƒ ()
+- atan: ƒ ()
+- atan2: ƒ ()
+- atanh: ƒ ()
+- avgPool: ƒ ()
+- basicLSTMCell: ƒ ()
+- batchNorm: ƒ ()
+- batchNorm2d: ƒ ()
+- batchNorm3d: ƒ ()
+- batchNorm4d: ƒ ()
+- batchNormalization: ƒ ()
+- batchNormalization2d: ƒ ()
+- batchNormalization3d: ƒ ()
+- batchNormalization4d: ƒ ()
+- batchToSpaceND: ƒ ()
+- browser: {toPixels: ƒ, fromPixels: ƒ}
+- buffer: ƒ zo(t,e,n)
+- cast: ƒ ()
+- ceil: ƒ ()
+- clipByValue: ƒ ()
+- clone: ƒ ()
+- complex: ƒ ()
+- concat: ƒ ()
+- concat1d: ƒ ()
+- concat2d: ƒ ()
+- concat3d: ƒ ()
+- concat4d: ƒ ()
+- constraints: {maxNorm: ƒ, unitNorm: ƒ, nonNeg: ƒ, minMaxNorm: ƒ}
+- conv1d: ƒ ()
+- conv2d: ƒ ()
+- conv2dDerFilter: ƒ ()
+- conv2dTranspose: ƒ ()
+- conv3d: ƒ ()
+- cos: ƒ ()
+- cosh: ƒ ()
+- cumsum: ƒ ()
+- customGrad: ƒ Vt(t)
+- data: {array: ƒ, Dataset: ƒ, zip: ƒ, CSVDataset: ƒ, TextLineDataset: ƒ, …}
+- deprecationWarn: ƒ Pt(t)
+- depthToSpace: ƒ ()
+- depthwiseConv2d: ƒ ()
+- disableDeprecationWarnings: ƒ zt()
+- dispose: ƒ (t)
+- disposeVariables: ƒ ()
+- div: ƒ ()
+- divStrict: ƒ ()
+- dot: ƒ ()
+- elu: ƒ ()
+- enableDebugMode: ƒ Ft()
+- enableProdMode: ƒ Lt()
+- environment: {EPSILON_FLOAT16: 0.0001, EPSILON_FLOAT32: 1e-7, Environment: ƒ, enableProdMode: ƒ, enableDebugMode: ƒ, …}
+- equal: ƒ ()
+- equalStrict: ƒ ()
+- erf: ƒ ()
+- exp: ƒ ()
+- expandDims: ƒ ()
+- expm1: ƒ ()
+- eye: ƒ ()
+- fft: ƒ ()
+- fill: ƒ Be(t,e,n)
+- floor: ƒ ()
+- floorDiv: ƒ ()
+- fused: {matMul: ƒ}
+- gather: ƒ ()
+- gatherND: ƒ ()
+- getBackend: ƒ ()
+- grad: ƒ (t)
+- grads: ƒ (t)
+- greater: ƒ ()
+- greaterEqual: ƒ ()
+- greaterEqualStrict: ƒ ()
+- greaterStrict: ƒ ()
+- ifft: ƒ ()
+- imag: ƒ ()
+- image: {resizeBilinear: ƒ, resizeNearestNeighbor: ƒ, nonMaxSuppression: ƒ, nonMaxSuppressionAsync: ƒ, cropAndResize: ƒ}
+- initializers: {zeros: ƒ, ones: ƒ, constant: ƒ, randomUniform: ƒ, randomNormal: ƒ, …}
+- input: ƒ Pd(t)
+- io: {browserFiles: ƒ, browserHTTPRequest: ƒ, concatenateArrayBuffers: ƒ, decodeWeights: ƒ, encodeWeights: ƒ, …}
+- irfft: ƒ ()
+- keep: ƒ (t)
+- layers: {inputLayer: ƒ, elu: ƒ, reLU: ƒ, leakyReLU: ƒ, prelu: ƒ, …}
+- leakyRelu: ƒ ()
+- less: ƒ ()
+- lessEqual: ƒ ()
+- lessEqualStrict: ƒ ()
+- lessStrict: ƒ ()
+- linalg: {gramSchmidt: ƒ, qr: ƒ}
+- linspace: ƒ Ue(t,e,n)
+- loadGraphModel: ƒ (t,e)
+- loadLayersModel: ƒ (t,e)
+- localResponseNormalization: ƒ ()
+- log: ƒ ()
+- log1p: ƒ ()
+- logSigmoid: ƒ ()
+- logSoftmax: ƒ ()
+- logSumExp: ƒ ()
+- logicalAnd: ƒ ()
+- logicalNot: ƒ ()
+- logicalOr: ƒ ()
+- logicalXor: ƒ ()
+- losses: {absoluteDifference: ƒ, computeWeightedLoss: ƒ, cosineDistance: ƒ, hingeLoss: ƒ, …}
+- matMul: ƒ ()
+- math: {confusionMatrix: ƒ}
+- max: ƒ ()
+- maxPool: ƒ ()
+- maximum: ƒ ()
+- maximumStrict: ƒ ()
+- mean: ƒ ()
+- memory: ƒ ()
+- metrics: {binaryAccuracy: ƒ, binaryCrossentropy: ƒ, sparseCategoricalAccuracy: ƒ, categoricalAccuracy: ƒ, categoricalCrossentropy: ƒ, …}
+- min: ƒ ()
+- minimum: ƒ ()
+- minimumStrict: ƒ ()
+- mod: ƒ ()
+- modStrict: ƒ ()
+- model: ƒ (t)
+- models: {modelFromJSON: ƒ}
+- moments: ƒ ()
+- movingAverage: ƒ ()
+- mul: ƒ ()
+- mulStrict: ƒ ()
+- multiRNNCell: ƒ ()
+- multinomial: ƒ ()
+- neg: ƒ ()
+- nextFrame: ƒ Fl()
+- norm: ƒ ()
+- notEqual: ƒ ()
+- notEqualStrict: ƒ ()
+- oneHot: ƒ ()
+- ones: ƒ ze(t,e)
+- onesLike: ƒ ()
+- op: ƒ Se(t)
+- outerProduct: ƒ ()
+- pad: ƒ ()
+- pad1d: ƒ ()
+- pad2d: ƒ ()
+- pad3d: ƒ ()
+- pad4d: ƒ ()
+- pool: ƒ ()
+- pow: ƒ ()
+- powStrict: ƒ ()
+- prelu: ƒ ()
+- print: ƒ Po(t,e)
+- prod: ƒ ()
+- profile: ƒ (t)
+- rand: ƒ ()
+- randomNormal: ƒ ()
+- randomUniform: ƒ ()
+- range: ƒ We(t,e,n,r)
+- real: ƒ ()
+- reciprocal: ƒ ()
+- registerCallbackConstructor: ƒ (t,e)
+- regularizers: {l1l2: ƒ, l1: ƒ, l2: ƒ}
+- relu: ƒ ()
+- reshape: ƒ ()
+- reverse: ƒ ()
+- reverse1d: ƒ ()
+- reverse2d: ƒ ()
+- reverse3d: ƒ ()
+- reverse4d: ƒ ()
+- rfft: ƒ ()
+- round: ƒ ()
+- rsqrt: ƒ ()
+- scalar: ƒ Re(t,e)
+- scatterND: ƒ ()
+- selu: ƒ ()
+- separableConv2d: ƒ ()
+- sequential: ƒ (t)
+- serialization: {Serializable: ƒ, SerializationMap: ƒ, registerClass: ƒ}
+- setBackend: ƒ (t,e)
+- setdiff1dAsync: ƒ (t,e)
+- sigmoid: ƒ ()
+- sign: ƒ ()
+- sin: ƒ ()
+- sinh: ƒ ()
+- slice: ƒ ()
+- slice1d: ƒ ()
+- slice2d: ƒ ()
+- slice3d: ƒ ()
+- slice4d: ƒ ()
+- softmax: ƒ ()
+- softplus: ƒ ()
+- spaceToBatchND: ƒ ()
+- sparseToDense: ƒ ()
+- spectral: {fft: ƒ, ifft: ƒ, rfft: ƒ, irfft: ƒ}
+- split: ƒ ()
+- sqrt: ƒ ()
+- square: ƒ ()
+- squaredDifference: ƒ ()
+- squaredDifferenceStrict: ƒ ()
+- squeeze: ƒ ()
+- stack: ƒ ()
+- step: ƒ ()
+- stridedSlice: ƒ ()
+- sub: ƒ ()
+- subStrict: ƒ ()
+- sum: ƒ ()
+- tan: ƒ ()
+- tanh: ƒ ()
+- tensor: ƒ Te(t,e,n)
+- tensor1d: ƒ De(t,e)
+- tensor2d: ƒ Oe(t,e,n)
+- tensor3d: ƒ _e(t,e,n)
+- tensor4d: ƒ Me(t,e,n)
+- tensor5d: ƒ Le(t,e,n)
+- tensor6d: ƒ Fe(t,e,n)
+- test_util: {WEBGL_ENVS: {…}, PACKED_ENVS: {…}, NODE_ENVS: {…}, CHROME_ENVS: {…}, BROWSER_ENVS: {…}, …}
+- tidy: ƒ (t,e)
+- tile: ƒ ()
+- time: ƒ (t)
+- topk: ƒ ()
+- train: {sgd: ƒ, momentum: ƒ, adadelta: ƒ, adagrad: ƒ, rmsprop: ƒ, …}
+- transpose: ƒ ()
+- truncatedNormal: ƒ ()
+- unsortedSegmentSum: ƒ ()
+- unstack: ƒ ()
+- util: {shuffle: ƒ, clamp: ƒ, nearestLargerEven: ƒ, sum: ƒ, randUniform: ƒ, …}
+- valueAndGrad: ƒ (t)
+- valueAndGrads: ƒ (t)
+- variable: ƒ (t,n,r,i)
+- variableGrads: ƒ Wt(t,e)
+- version: {tfjs-core: "1.0.0", tfjs-data: "1.0.0", tfjs-layers: "1.0.0", tfjs-converter: "1.0.0", tfjs: "1.0.0"}
+- version_converter: "1.0.0"
+- version_core: "1.0.0"
+- version_layers: "1.0.0"
+- webgl: {gpgpu_util: {…}, webgl_util: {…}, MathBackendWebGL: ƒ, GPGPUContext: ƒ}
+- where: ƒ ()
+- whereAsync: ƒ (t)
+- zeros: ƒ Pe(t,e)
+- zerosLike: ƒ ()
 
 ## 模块化开发：todo
 |优先级|模块化|测试的仓库|描述||
 | --- | --- | --- | --- | --- |
+|0|训练Tensorflow识别手写图片||||
 |1|汇编去捕获内存和更改内存的值||这是直接关系到后续工作的核心部位||
 |2|《怪物猎人：世界》——怪物识别码||||
 |3|《怪物猎人：世界》——道具识别码||||
@@ -104,7 +385,12 @@
 |37|摄像头识别||||
 |38|opencv相关||||
 |39|通过AI识别怪物种类|Kuril yak|||
-||||||
+|40|基于Tensorflow.js Node,.js 音高预测||||
+|41|MINIST数字识别器|https://github.com/tensorflow/tfjs-examples/tree/master/mnist|||
+|42|加法RNN，训练模型从文本样本中学习加法|https://github.com/tensorflow/tfjs-examples/tree/master/addition-rnn|||
+|43|鸢尾花分类,使用表格式数据对花朵进行分类|https://github.com/tensorflow/tfjs-examples/tree/master/iris|||
+|44|TensorFlow.js 训练图片分类|||使用mobilenet API ，效果真渣|
+|45|TensorFlow.js 训练手写|||||||
 ||||||
 
 
