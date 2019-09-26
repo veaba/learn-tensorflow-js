@@ -34,3 +34,26 @@ conda install --channel https://conda.anaconda.org/conda-forge tensorflow
 ## dHash算法
 ## 差值感知算法
 ## 方差计算
+
+## 手写MNIST 项目结构
+
+[MNIST](http://yann.lecun.com/exdb/mnist/)
+
+```
+│  app-tf.py
+│  opencv.py
+│  README.md
+│  scrapy.py
+│
+└─MNIST_data
+        t10k-images-idx3-ubyte.gz
+        t10k-labels-idx1-ubyte.gz
+        train-images-idx3-ubyte.gz
+        train-labels-idx1-ubyte.gz
+
+```
+
+> python mnist.py 就可以走了
+
+
+## 数学模型：softmax Regression 
