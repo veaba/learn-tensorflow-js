@@ -12,7 +12,9 @@
 - numpy Python进行科学计算的基础软件包
 - [tensorflow demo](https://tensorflow.google.cn/js/demos/?hl=zh_cn)
 - [❤ tensorflow.js 更多的demo](https://github.com/tensorflow/tfjs-examples/)
+- [python+opencv图像处理（一）](https://www.cnblogs.com/qiangayz/p/9569967.html)
 
+- [机器学习-MNIST机器学习入门](http://wiki.jikexueyuan.com/project/tensorflow-zh/tutorials/mnist_beginners.html)
 
 ```txt
 pip install tensorflow 
@@ -25,3 +27,10 @@ anaconda 安装tensorflow：
 
 conda install --channel https://conda.anaconda.org/conda-forge tensorflow
 ```
+
+## 计算汉明距离
+## 平均哈希法
+## 感知哈希算法
+## dHash算法
+## 差值感知算法
+## 方差计算

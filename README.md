@@ -48,6 +48,14 @@
 
 - ❤[tensorflow.js 更多的demo](https://github.com/tensorflow/tfjs-examples/)
 
+- [基于Anaconda 安装tensorflow](https://www.jianshu.com/p/42a939285d7a)
+
+- [Anaconda 更改源](https://jingyan.baidu.com/article/1876c8527be1c3890a137645.html)
+
+- [scrapy 爬虫工具，python 依赖包]()
+
+- 国内镜像安装opencv-python
+> pip install opencv-python -i  https://pypi.douban.com/simple
 
 ## 项目背景
 
@@ -391,6 +399,7 @@
 |43|鸢尾花分类,使用表格式数据对花朵进行分类|https://github.com/tensorflow/tfjs-examples/tree/master/iris|||
 |44|TensorFlow.js 训练图片分类|||使用mobilenet API ，效果真渣|
 |45|TensorFlow.js 训练手写|||||||
+|46|python-opencv 识别图片|https://www.kancloud.cn/aollo/aolloopencv/259610|||
 ||||||
 
 
@@ -522,3 +531,5 @@
 ## 难点：
 - 如何隔空或者获取鼠标参数？
 - 如何定位全部的内存参数和变更？
+
+
