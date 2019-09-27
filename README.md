@@ -12,6 +12,9 @@
 
 ## Tracking Project：TODO 
 - 最新的进度在最新分分支里面
+- 先去翻译tensorflow python 版本的API去了（想致富先修路，想开发先翻译文档）
+- [tensorflow-docs](https://github.com/veaba/tensorflow-docs)
+- [tensorflow.js-docs](https://github.com/veaba/tensorflow.js-docs)
 
 
 
@@ -79,6 +82,7 @@
 
 
 ## tensorflow.js 的API
+https://js.tensorflow.org/api/latest/?hl=zh_cn
 
 - AdadeltaOptimizer: ƒ e(e,n,r)
 - AdagradOptimizer: ƒ e(e,n)
@@ -349,6 +353,9 @@
 - whereAsync: ƒ (t)
 - zeros: ƒ Pe(t,e)
 - zerosLike: ƒ ()
+
+## tensroflow python API
+
 
 ## 模块化开发：todo
 |优先级|模块化|测试的仓库|描述||

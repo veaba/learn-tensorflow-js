@@ -61,9 +61,9 @@ def var_rand_1():
 
 
 def placehoder_run():
-    x =tf.placeholder("float")
+    x =tf.compat.v1.placeholder("float")
     y=2*x
-    data=tf.random.uniform([4,6],10)
+    data=tf.random.uniform([4,6],10)#10 默认0 0-1，乘以10倍
     with tf.compat.v1.Session() as sess:
          x_data=sess.run(data)
          print(sess.run(y,feed_dict={x:x_data}))
