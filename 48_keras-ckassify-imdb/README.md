@@ -5,6 +5,7 @@
 - 拉取50000影评，二分的模型，不是好就是坏，所以，好坏一半，为此训练集合测试集是一样的数据
 
 ## 相关资源（译者）
+- [原文](https://tensorflow.google.cn/tutorials/keras/text_classification_with_hub)
 - tensorflow_hub 一个迁移学习的库和平台
 > pip install tensorflow_hub
 - tensorflow_datasets
