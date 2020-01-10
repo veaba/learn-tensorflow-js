@@ -1,12 +1,13 @@
 # Keras 机器学习基础知识
 
 ## 基本分类：衣服图片分类
-
+- [原文](https://tensorflow.google.cn/tutorials/keras/classification)
 - [Github源码](https://github.com/tensorflow/docs/blob/master/site/en/tutorials/keras/classification.ipynb0)
 - [下载训练集](https://storage.googleapis.com/tensorflow_docs/docs/site/en/tutorials/keras/classification.ipynb)
 - [matplotlib](https://www.matplotlib.org.cn/) 一个绘图库
 - numpy 一个python 基本数学库
 - tensorflow 大数据框架
+
 
 本指南训练一个神经网络模型来分类像运动鞋和衬衫衣服的图片。如果你不了解所有的细节没关系；这是一个完整的TensorFlow程序的快节奏概述，开始后会有解释细节。
 
@@ -405,7 +406,7 @@ model=keras.Sequential([
 
 # 编译模型
 model.compile(
-    optimizer='adma',                       # 优化
+    optimizer='adam',                       # 优化
     loss='sparse_categorical_crossentropy', # 损失
     metrics=['accuracy']                    # 指标
 )
@@ -414,7 +415,7 @@ model.compile(
 
 训练神经网络模型需要以下步骤：
 
-1. 将训练数据输入模型。在本例中，训练数据位于train_images和train_labels数组中。
+1. 将训练数据输入模型。在本例中，训练数据位于`train_images`和`train_labels`数组中。
 2. 模型学习关联图像和标签。
 3. 在本例中，您要求模型对测试集`test_images`数组进行预测。
 4. 验证预测是否与`test_labels`数组中的标签匹配。
@@ -826,3 +827,6 @@ print(np.argmax(predictions_single[0])) #2
 
 模型预测了一个标签。
 
+
+但是这个指南，并无涉及到如何保存模型：
+将的通过训练集、测试集来训练模型，并最终验证模型的过程。
