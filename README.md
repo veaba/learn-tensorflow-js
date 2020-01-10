@@ -4,6 +4,10 @@
 
 或者名字：MHWAI
 
+## 目录
+- [x] 47_keras-ckassify-clothing(Google 图片分类demo)
+- 48_keras-ckassify-imdb(Google 电影评论分类demo)
+
 ## 计划：每一天或者每一周 checkout 出来一个分支——预计100周~啊哈哈
 - 一个分支一周的时间
 - 这样的话就可以根据分支的变化日志来追踪整个项目的变更了（此前一直想做的）
