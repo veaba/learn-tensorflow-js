@@ -416,13 +416,413 @@ model.compile(
 
 1. 将训练数据输入模型。在本例中，训练数据位于train_images和train_labels数组中。
 2. 模型学习关联图像和标签。
-3. 在本例中，您要求模型对测试集`test_images`数组进行预测。验证预测是否与`test_labels`数组中的标签匹配。
+3. 在本例中，您要求模型对测试集`test_images`数组进行预测。
+4. 验证预测是否与`test_labels`数组中的标签匹配。
 
 
+### 喂给model
+要开始训练，请调用`model.fit`方法，因为它将模型“拟合”到培训数据：
+
+```python
+from __future__ import absolute_import, division, print_function, unicode_literals
+# TensorFlow and keras
+import tensorflow as tf
+from tensorflow import keras
+# Helper libraries
+import numpy as np  # python 基础数学库
+import matplotlib.pyplot as plt  # python 绘图库
+fashion_mnist = keras.datasets.fashion_mnist
+# 获取训练集、测试集
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+print(train_images.shape) # (60000, 28, 28)
+print(train_labels) # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+train_images=train_images/255.0
+test_images=test_images/255.0
+
+# 本次添加的
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i],cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+# 配置
+model=keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128,activation='relu'),
+    keras.layers.Dense(10,activation='softmax')        
+])
+
+# 编译模型
+model.compile(
+    optimizer='adma',                       # 优化
+    loss='sparse_categorical_crossentropy', # 损失
+    metrics=['accuracy']                    # 指标
+)
+
+# 喂给模型
+model.fit(train_images,train_labels,epochs=10)
+```
+当模型训练时，将显示损失和精度度量。该模型对训练数据的精度达到0.91（91%）。
 
 ### 评估准确性
 
+接下来，比较模型在测试数据集上的执行情况：
+```python
+from __future__ import absolute_import, division, print_function, unicode_literals
+# TensorFlow and keras
+import tensorflow as tf
+from tensorflow import keras
+# Helper libraries
+import numpy as np  # python 基础数学库
+import matplotlib.pyplot as plt  # python 绘图库
+fashion_mnist = keras.datasets.fashion_mnist
+# 获取训练集、测试集
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+print(train_images.shape) # (60000, 28, 28)
+print(train_labels) # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+train_images=train_images/255.0
+test_images=test_images/255.0
+
+# 本次添加的
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i],cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+# 配置
+model=keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128,activation='relu'),
+    keras.layers.Dense(10,activation='softmax')        
+])
+
+# 编译模型
+model.compile(
+    optimizer='adma',                       # 优化
+    loss='sparse_categorical_crossentropy', # 损失
+    metrics=['accuracy']                    # 指标
+)
+
+# 喂给模型
+model.fit(train_images,train_labels,epochs=10)
+
+# 评估
+
+test_loss,test_acc=model.evaluate(test_images,test_labels,verbose=2)
+
+# 10000/10000 - 1s - loss: 0.3499 - accuracy: 0.8811
+print('Test accuracy：',test_acc) # Test accuracy: 0.8811
+
+```
+
+结果表明，测试数据集的准确性略低于训练数据集的准确性。训练精度和测试精度之间的这种差距代表了过度拟合。过度拟合是指机器学习模型在新的、以前看不见的输入上的性能比在训练数据上的性能差。
+
+
 ### 作出预测
 
+通过训练模型，您可以使用它对一些图像进行预测。
 
+```python
+from __future__ import absolute_import, division, print_function, unicode_literals
+# TensorFlow and keras
+import tensorflow as tf
+from tensorflow import keras
+# Helper libraries
+import numpy as np  # python 基础数学库
+import matplotlib.pyplot as plt  # python 绘图库
+fashion_mnist = keras.datasets.fashion_mnist
+# 获取训练集、测试集
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+print(train_images.shape) # (60000, 28, 28)
+print(train_labels) # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+train_images=train_images/255.0
+test_images=test_images/255.0
+
+# 本次添加的
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i],cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+# 配置
+model=keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128,activation='relu'),
+    keras.layers.Dense(10,activation='softmax')        
+])
+
+# 编译模型
+model.compile(
+    optimizer='adma',                       # 优化
+    loss='sparse_categorical_crossentropy', # 损失
+    metrics=['accuracy']                    # 指标
+)
+
+# 喂给模型
+model.fit(train_images,train_labels,epochs=10)
+
+# 评估
+test_loss,test_acc=model.evaluate(test_images,test_labels,verbose=2)
+# 10000/10000 - 1s - loss: 0.3499 - accuracy: 0.8811
+print('Test accuracy：',test_acc) # Test accuracy: 0.8811
+
+# 预测 
+predictions= model.predict(test_images)
+
+```
+在这里，模型已经为测试集中的每个图像预测了标签。让我们看看第一个预测：
+
+```text
+print(predictions[0])
+```
+结果：
+
+```text
+array([1.4711586e-08, 7.2586021e-10, 3.9839532e-10, 5.7181171e-09,
+       1.5156877e-09, 3.4303256e-04, 2.1361195e-07, 4.7104005e-03,
+       8.6297112e-09, 9.9494630e-01], dtype=float32)
+```
+
+预测是由10个数字组成的数组。它们代表了模型的“自信”，即形象对应于10种不同的服装。您可以看到哪个标签具有最高的信任值：
+
+
+```text
+np.argmax(predictions[0]) #9
+```
+
+因此，该模型最有信心的是，这个图像是一个踝靴，或类名称[9]。检查测试标签表明此分类正确：
+
+```text
+print(test_labels[0])
+```
+用这个图表来查看10个类预测的完整集合。
+
+```python
+from __future__ import absolute_import, division, print_function, unicode_literals
+# TensorFlow and keras
+import tensorflow as tf
+from tensorflow import keras
+# Helper libraries
+import numpy as np  # python 基础数学库
+import matplotlib.pyplot as plt  # python 绘图库
+fashion_mnist = keras.datasets.fashion_mnist
+# 获取训练集、测试集
+(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+print(train_images.shape) # (60000, 28, 28)
+print(train_labels) # array([9, 0, 0, ..., 3, 0, 5], dtype=uint8)
+plt.figure()
+plt.imshow(train_images[0])
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+train_images=train_images/255.0
+test_images=test_images/255.0
+
+# 本次添加的
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i],cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+# 配置
+model=keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128,activation='relu'),
+    keras.layers.Dense(10,activation='softmax')        
+])
+
+# 编译模型
+model.compile(
+    optimizer='adma',                       # 优化
+    loss='sparse_categorical_crossentropy', # 损失
+    metrics=['accuracy']                    # 指标
+)
+
+# 喂给模型
+model.fit(train_images,train_labels,epochs=10)
+
+# 评估
+test_loss,test_acc=model.evaluate(test_images,test_labels,verbose=2)
+# 10000/10000 - 1s - loss: 0.3499 - accuracy: 0.8811
+print('Test accuracy：',test_acc) # Test accuracy: 0.8811
+
+# 预测 
+predictions= model.predict(test_images)
+
+def plot_image(i, predictions_array, true_label, img):
+    predictions_array, true_label, img = predictions_array, true_label[i], img[i]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+    
+    plt.imshow(img, cmap=plt.cm.binary)
+    
+    predicted_label = np.argmax(predictions_array)
+    if predicted_label == true_label:
+        color = 'blue'
+    else:
+        color = 'red'
+    
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                100*np.max(predictions_array),
+                                class_names[true_label]),
+                                color=color)
+
+def plot_value_array(i, predictions_array, true_label):
+    predictions_array, true_label = predictions_array, true_label[i]
+    plt.grid(False)
+    plt.xticks(range(10))
+    plt.yticks([])
+    thisplot = plt.bar(range(10), predictions_array, color="#777777")
+    plt.ylim([0, 1])
+    predicted_label = np.argmax(predictions_array)
+    
+    thisplot[predicted_label].set_color('red')
+    thisplot[true_label].set_color('blue')
+```
+
+### 验证预测
+
+通过训练模型，您可以使用它对一些图像进行预测。
+
+让我们看看第0幅图像、预测和预测数组。正确的预测标签为蓝色，错误的预测标签为红色。这个数字给出了预测标签的百分比（100分之一）。
+
+```python
+i=0
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i,predictions[i],test_labels,test_images)
+plt.subplot(1,2,2)
+plot_value_array(i,predictions[i],test_labels)
+plt.show()
+```
+![](https://tensorflow.google.cn/tutorials/keras/classification_files/output_HV5jw-5HwSmO_0.png)
+
+```python
+i=12
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i,predictions[i],test_labels,test_images)
+plt.subplot(1,2,2)
+plot_value_array(i,predictions[i],test_labels)
+plt.show()
+```
+![](https://tensorflow.google.cn/tutorials/keras/classification_files/output_Ko-uzOufSCSe_0.png)
+
+让我们用他们的预测来绘制几个图像。请注意，即使在非常自信的情况下，模型也可能是错误的。
+
+```python
+# 绘制第一个X测试图像、它们的预测标签和真实标签。
+# 颜色正确预测为蓝色，错误预测为红色。
+
+num_rows=5
+num_cols=3
+num_images=num_rows*num_cols
+
+plt.figure(figsize=(2*2*num_cols,2*num_rows))
+for i in range(num_images):
+    plt.subplot(num_rows,2*num_cols,2*i+1)
+    plot_image(i,predictions[i],test_labels,test_images)
+    plt.subplot(num_rows,2*num_cols,2*i+2)
+    plo_value_array(i,predictions[i],test_labels)
+plg.tight_layout()
+plg_show()
+```
+![](https://tensorflow.google.cn/tutorials/keras/classification_files/output_hQlnbqaw2Qu__0.png)
+
+### 使用经过训练的模型
+
+最后，利用训练后的模型对单个图像进行预测。
+
+```python
+# 从测试数据集中获取图像。
+
+img=test_images[1]
+print(img.shape) #(28, 28)
+```
+
+对[`tf.keras`](https://tensorflow.google.cn/api_docs/python/tf/keras)模型进行了优化，可以同时对一批或一组示例进行预测。因此，即使使用单个图像，也需要将其添加到列表中：
+
+```python
+# 将图像添加到只有它一个成员的批处理中。
+
+img=(np.expand_dims(img,0))
+print(img.shape) # (1,28,28)
+```
+
+现在预测此图像的正确标签：
+
+```python
+predictions_single=model.predict(img)
+print(predictions_single)
+```
+结果
+
+```text
+[[2.3515991e-05 1.8022357e-13 9.8655802e-01 1.3430835e-13 1.3296051e-02
+  5.1873236e-13 1.2246115e-04 1.5213916e-23 8.6392804e-09 1.0808098e-15]]
+```
+
+```python
+plot_value_array(1,predictions_single[0],test_lables)
+- =plt.xticks(range(10),class_names,rotation=45)
+```
+
+![](https://tensorflow.google.cn/tutorials/keras/classification_files/output_6Ai-cpLjO-3A_0.png)
+
+
+`model.predict`返回一个列表列表，一个列表用于批数据中的每个图像。获取批次中我们（仅）图像的预测：
+
+```python
+print(np.argmax(predictions_single[0])) #2
+```
+
+模型预测了一个标签。
 
