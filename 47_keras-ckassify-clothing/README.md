@@ -1,5 +1,52 @@
 # Keras 机器学习基础知识
 
+## 疑问（译者）
+- 为什么执行每次都从头开始训练？？
+- 且10次迭代很费时间，训练期间CPU100%
+
+## 流程步骤（译者梳理）
+- 引入依赖库
+    - tensorflow
+    - tensorflow 高级API keras 内置一些demo训练集，比如此例的服装分类
+    - matplotlib.pyplot  一个python 绘图库
+    - matplotlib.font_manage 让plt 支持显示中文
+    - 本例使用的tensorflot 2.0.0 版本
+    - 数据量大，样本比例：训练集：验证集、测试集=> 98:1:1，验证集也可以用于更加明确的模型中使用
+    - 一般的样本比例：训练集：测试集=> 7:3
+- keras 引入数据集
+```python
+fashion_mnist=keras.datasets.fashion_mnist
+# 获取训练集，会自动下载数据
+(trans_images,train_labels),(test_images,test_labels)=fashion_mnist.load_data()
+```    
+ 
+- plt 打印训练集/测试集数据
+```python
+plt.figure(figsize=(10, 10))
+for i in range(25):
+    plt.subplot(5, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    # plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.imshow(test_images[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]], fontproperties=font)
+plt.show()
+```
+- 建立模型
+- 编译模型
+- 喂给模型数据
+- 初步评估
+- 预测，取最大值的索引值并和定义的名称对比，取到图片分类名字
+- 验证。取10个做验证
+- 使用经过训练的模型去测试单个图片，去验证
+
+
+
+
+
+
+
 ## 基本分类：衣服图片分类
 - [原文](https://tensorflow.google.cn/tutorials/keras/classification)
 - [Github源码](https://github.com/tensorflow/docs/blob/master/site/en/tutorials/keras/classification.ipynb0)
