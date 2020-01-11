@@ -90,12 +90,178 @@ print(train_labels_batch)
 ```
 
 ## 构建模型
+神经网络是又堆叠的层（Layers）来构建的，这需要从三个主要方面来进行体系结构的决策：
 
+- 如何表示文本？
+- 模型里有多少层？
+- 每个层里有多少隐层单元（Hidden units）？
+
+本示例中，输入数据由句子组成，预测的标签为0或1
+
+表示文档的一种方式是将句子转换为嵌入向量（embeddings vectors），我们可以适用一个预先训练好的文本嵌入（text embeddings）作为首层，这将有以下三个优点：
+
+- 我们不必担心文本预处理
+- 我们可以从迁移学习中受益
+- 嵌入具有固定长度，更易于处理
+
+针对此示例我们将使用[TensorFlow Hub](https://tensorflow.google.cn/hub) 中名为 [google/tf2-preview/gnews-swivel-20dim/1](https://hub.tensorflow.google.cn/google/tf2-preview/gnews-swivel-20dim/1) 的一种预训练文本嵌入模型。
+
+为了达到本教程的目的还有其他三种预训练模型可供测试：
+
+- google/tf2-preview/gnews-swivel-20dim-with-oov/1 —— 类似 google/tf2-preview/gnews-swivel-20dim/1，但2.5% 的词汇转为未登录词桶（OOV Buckets）。如果任务的词汇和模型的词汇没有完全重叠，这将会有所帮助。
+- google/tf2-preview/nnlm-en-dim50/1 —— 一个拥有约1M词汇量且维度为50的更大的模型。
+- google/tf2-preview/nnlm-en-dim128/1 —— 一个拥有约1M词汇量且维度为128的更大的模型
+
+让我们首先创建一个使用 TensorFlow Hub 模型嵌入（embed）语句的Keras层，并在几个输入样本中进行尝试，请注意无论输入文本的长度如何，嵌入输出的形状都是: `(number_examples,embedding_dimension)`
+
+```python
+embedding="https://hub.tensorflow.google.cn/google/tf2-preview/gnews-swivel-20dim/1"
+hub_layer=hub.KerasLayer(embedding,input_shape=[],dtype=tf.string,trainable=True)
+hub_layer(train_examples_batch[:3])
+```
+结果如下：
+```text
+<tf.Tensor: id=402, shape=(3, 20), dtype=float32, numpy=
+array([[ 3.9819887 , -4.4838037 ,  5.177359  , -2.3643482 , -3.2938678 ,
+        -3.5364532 , -2.4786978 ,  2.5525482 ,  6.688532  , -2.3076782 ,
+        -1.9807833 ,  1.1315885 , -3.0339816 , -0.7604128 , -5.743445  ,
+         3.4242578 ,  4.790099  , -4.03061   , -5.992149  , -1.7297493 ],
+       [ 3.4232912 , -4.230874  ,  4.1488533 , -0.29553518, -6.802391  ,
+        -2.5163853 , -4.4002395 ,  1.905792  ,  4.7512794 , -0.40538004,
+        -4.3401685 ,  1.0361497 ,  0.9744097 ,  0.71507156, -6.2657013 ,
+         0.16533905,  4.560262  , -1.3106939 , -3.1121316 , -2.1338716 ],
+       [ 3.8508697 , -5.003031  ,  4.8700504 , -0.04324996, -5.893603  ,
+        -5.2983093 , -4.004676  ,  4.1236343 ,  6.267754  ,  0.11632943,
+        -3.5934832 ,  0.8023905 ,  0.56146765,  0.9192484 , -7.3066816 ,
+         2.8202746 ,  6.2000837 , -3.5709393 , -4.564525  , -2.305622  ]],
+      dtype=float32)>
+
+```
+现在让我们构建完整的模型：
+
+```python
+model=tf.keras.Sequential()
+model.add(hub_layer)
+model.add(tf.keras.layers.Dense(16,activation="relu"))
+model.add(tf.keras.layers.Dense(1,activation="sigmoid"))
+
+model.summary()
+```
+
+结果
+```text
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+keras_layer (KerasLayer)     (None, 20)                400020    
+_________________________________________________________________
+dense (Dense)                (None, 16)                336       
+_________________________________________________________________
+dense_1 (Dense)              (None, 1)                 17        
+=================================================================
+Total params: 400,373
+Trainable params: 400,373
+Non-trainable params: 0
+_________________________________________________________________
+```
+
+层按顺序堆叠以构建分类器：
+
+1. 第一层是TensorFlow Hub层。这一层使用一个预训练的保存好的模型来将句子映射为嵌入向量。我们使用的预训练文本嵌入模型(google/tf2-preview/gnews-swivel-20dim/1)将句子切割为符号，嵌入每个符号然后进行合并，最终得到的维度是：(num_examples,embedding_dimension)
+2. 该定长输出向量通过一个有16个隐层单元的全连接层（Dense）进行管道传输。
+3. 最后一层与单个输出结点紧密相连，使用Sigmoid激活含税，其函数值介于0-1之间的浮点数，表示概率或置信水平。
+
+让我们编译模型。
 
 ### 损失函数和优化器
 
+一个模型需要损失函数和优化器来训练，由于这是一个二分类问题且模型输出概率值（一个使用sigmoid激活函数单一单元层），我们将使用`binary_crossentropy`损失函数。
+
+这不是损失函数的唯一选择，例如，你可以选择`mean_squared_error`，但是，一般来说，`binary_crossentropy`更适合处理概率问题。它能够度量概率分布之间的距离，或者在我们的示例中，指的度量ground-truth分布与预测值之间的距离
+
+现在，配置模型来使用优化器和损失函数。
+
+```python
+model.compile(optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+```
 ## 训练模型
+
+以512个样本的mini-batch大小迭代20个epoch来训练模型，这是指`x_train`和`y_train`张量中所有样本的20次迭代。在训练过程中，监测来自验证集10000个样本上的损失值(loss)和准确率(accuracy)：
+
+```python
+history=model.fit(train_data.shuffle(10000).batch(512),
+    epochs=20,
+    validation_data=validation_data.batch(512),
+    verbose=1
+)
+```
+结果：
+```text
+Epoch 1/20
+30/30 [==============================] - 5s 153ms/step - loss: 0.9062 - accuracy: 0.4985 - val_loss: 0.0000e+00 - val_accuracy: 0.0000e+00
+Epoch 2/20
+30/30 [==============================] - 4s 117ms/step - loss: 0.7007 - accuracy: 0.5625 - val_loss: 0.6692 - val_accuracy: 0.6029
+Epoch 3/20
+30/30 [==============================] - 4s 117ms/step - loss: 0.6486 - accuracy: 0.6379 - val_loss: 0.6304 - val_accuracy: 0.6543
+Epoch 4/20
+30/30 [==============================] - 4s 117ms/step - loss: 0.6113 - accuracy: 0.6866 - val_loss: 0.5943 - val_accuracy: 0.6966
+Epoch 5/20
+30/30 [==============================] - 3s 114ms/step - loss: 0.5764 - accuracy: 0.7176 - val_loss: 0.5650 - val_accuracy: 0.7201
+Epoch 6/20
+30/30 [==============================] - 3s 109ms/step - loss: 0.5435 - accuracy: 0.7447 - val_loss: 0.5373 - val_accuracy: 0.7424
+Epoch 7/20
+30/30 [==============================] - 3s 110ms/step - loss: 0.5132 - accuracy: 0.7723 - val_loss: 0.5080 - val_accuracy: 0.7667
+Epoch 8/20
+30/30 [==============================] - 3s 110ms/step - loss: 0.4784 - accuracy: 0.7943 - val_loss: 0.4790 - val_accuracy: 0.7833
+Epoch 9/20
+30/30 [==============================] - 3s 110ms/step - loss: 0.4440 - accuracy: 0.8172 - val_loss: 0.4481 - val_accuracy: 0.8054
+Epoch 10/20
+30/30 [==============================] - 3s 112ms/step - loss: 0.4122 - accuracy: 0.8362 - val_loss: 0.4204 - val_accuracy: 0.8196
+Epoch 11/20
+30/30 [==============================] - 3s 110ms/step - loss: 0.3757 - accuracy: 0.8534 - val_loss: 0.3978 - val_accuracy: 0.8290
+Epoch 12/20
+30/30 [==============================] - 3s 111ms/step - loss: 0.3449 - accuracy: 0.8685 - val_loss: 0.3736 - val_accuracy: 0.8413
+Epoch 13/20
+30/30 [==============================] - 3s 109ms/step - loss: 0.3188 - accuracy: 0.8798 - val_loss: 0.3570 - val_accuracy: 0.8465
+Epoch 14/20
+30/30 [==============================] - 3s 110ms/step - loss: 0.2934 - accuracy: 0.8893 - val_loss: 0.3405 - val_accuracy: 0.8549
+Epoch 15/20
+30/30 [==============================] - 3s 109ms/step - loss: 0.2726 - accuracy: 0.9003 - val_loss: 0.3283 - val_accuracy: 0.8611
+Epoch 16/20
+30/30 [==============================] - 3s 111ms/step - loss: 0.2530 - accuracy: 0.9079 - val_loss: 0.3173 - val_accuracy: 0.8648
+Epoch 17/20
+30/30 [==============================] - 3s 113ms/step - loss: 0.2354 - accuracy: 0.9143 - val_loss: 0.3096 - val_accuracy: 0.8679
+Epoch 18/20
+30/30 [==============================] - 3s 112ms/step - loss: 0.2209 - accuracy: 0.9229 - val_loss: 0.3038 - val_accuracy: 0.8700
+Epoch 19/20
+30/30 [==============================] - 3s 112ms/step - loss: 0.2037 - accuracy: 0.9287 - val_loss: 0.2990 - val_accuracy: 0.8736
+Epoch 20/20
+30/30 [==============================] - 3s 109ms/step - loss: 0.1899 - accuracy: 0.9349 - val_loss: 0.2960 - val_accuracy: 0.8751
+```
+
 
 ## 评估模型
 
+我们来看下模型的表现如何，将返回两个值，损失值：一个表示误差的数字，值越低越好；准确率。
+
+```python
+results=model.evalute(test_data.patch(512),varbose=2)
+for name,value in zip(model.metrics_names,results):
+    print("%s: %.3f " % (name,value))
+```
+
+结果如下：
+
+```text
+49/49 - 2s - loss: 0.3163 - accuracy: 0.8651
+loss: 0.316
+accuracy: 0.865
+```
+这种十分朴素的方法得到约87%的准确率，若采用更高的方法，模型的准确率应当接近95%。
+
 ## 进一步阅读
+有关使用字符串输入的更一般的方法，以及对训练期间的准确率和损失值的更详细的分析，请参阅[此处](https://tensorflow.google.cn/tutorials/keras/basic_text_classification)

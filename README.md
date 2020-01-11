@@ -7,6 +7,7 @@
 ## 目录
 - [x] 47_keras-ckassify-clothing(Google 图片分类demo)
 - 48_keras-ckassify-imdb(Google 电影评论分类demo)
+- 根据昵称来判断是男是女
 
 ## 计划：每一天或者每一周 checkout 出来一个分支——预计100周~啊哈哈
 - 一个分支一周的时间
