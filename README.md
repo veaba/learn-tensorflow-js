@@ -4,6 +4,12 @@
 
 或者名字：MHWAI
 
+## 疑问
+- 如何导出模型
+- 如何导入模型
+- 如何优化模型
+- 如何提高准确度
+
 ## 目录
 - [x] 47_keras-ckassify-clothing(Google 图片分类demo)
 - 48_keras-ckassify-imdb(Google 电影评论分类demo)
@@ -24,6 +30,9 @@
 
 
 ## 相关学习链接
+- [TensorFlow Hub：发布、发现和机器学习模型中可重复利用的部分](https://tensorflow.google.cn/hub/?hl=zh_cn)
+- [TensorFlow Hub：官网](https://tfhub.dev/)
+
 - [极客学院——TensorFlow 官方文档中文版](http://wiki.jikexueyuan.com/project/tensorflow-zh/)
 - [谷歌全新开源人工智能系统TensorFlow官方文档中文版 GitHub仓库，内容同上](https://github.com/jikexueyuanwiki/tensorflow-zh)
 - [TensorFlow JS版官网](https://www.tensorflow.org/js/)
