@@ -9,11 +9,14 @@
 - 如何导入模型
 - 如何优化模型
 - 如何提高准确度
+- 如何制作自己的训练集？
+
 
 ## 目录
 - [x] 47_keras-ckassify-clothing(Google 图片分类demo)
-- 48_keras-ckassify-imdb(Google 电影评论分类demo)
-- 根据昵称来判断是男是女
+- 48_keras-ckassify-imdb(Google 电影评论分类demo，使用hub)
+- TODO 根据昵称来判断是男是女
+- TODO 根据起点小说名称判断它属于什么分类
 
 ## 计划：每一天或者每一周 checkout 出来一个分支——预计100周~啊哈哈
 - 一个分支一周的时间
@@ -32,7 +35,11 @@
 ## 相关学习链接
 - [TensorFlow Hub：发布、发现和机器学习模型中可重复利用的部分](https://tensorflow.google.cn/hub/?hl=zh_cn)
 - [TensorFlow Hub：官网](https://tfhub.dev/)
+- [TensorFlow Model](https://github.com/tensorflow/models/tree/master/official)
+- [TensorFlow 库和扩展程序](https://tensorflow.google.cn/resources/libraries-extensions/?hl=zh_cn)
 
+- [TFJS 范例](https://github.com/tensorflow/tfjs-examples/)
+- [TFJS 转Python模型](https://tensorflow.google.cn/js/tutorials?hl=zh_cn#convert_pretained_models_to_tensorflowjs)
 - [极客学院——TensorFlow 官方文档中文版](http://wiki.jikexueyuan.com/project/tensorflow-zh/)
 - [谷歌全新开源人工智能系统TensorFlow官方文档中文版 GitHub仓库，内容同上](https://github.com/jikexueyuanwiki/tensorflow-zh)
 - [TensorFlow JS版官网](https://www.tensorflow.org/js/)
